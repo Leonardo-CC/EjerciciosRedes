@@ -7,6 +7,7 @@ public class Client {
     private Socket s = null;
     private DataInputStream in = null;
     private DataOutputStream out = null;
+    private DataInputStream ms = null;
 
     public Client(String addr, int port) {
         try {
@@ -15,6 +16,7 @@ public class Client {
 
             in = new DataInputStream(System.in);
 
+            ms = new DataInputStream(s.getInputStream());
             out = new DataOutputStream(s.getOutputStream());
         } catch (UnknownHostException u) {
             System.out.println("Error de host: " + u);
@@ -31,6 +33,8 @@ public class Client {
                 mensaje = in.readLine();
                 out.writeUTF(mensaje);
 
+                String r = ms.readUTF();
+                System.out.println("Mensaje servidor: "+ r);
             } catch (IOException i) {
                 System.out.println(i);
             }
@@ -40,6 +44,7 @@ public class Client {
             in.close();
             out.close();
             s.close();
+            ms.close();
         } catch (IOException i) {
             System.out.println(i);
         }

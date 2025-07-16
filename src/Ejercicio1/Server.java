@@ -19,6 +19,7 @@ public class Server {
             System.out.println("Cliente esta conectado");
 
             in = new DataInputStream(s.getInputStream());
+            out = new DataOutputStream(s.getOutputStream());
 
             String mensaje = "";
 
@@ -27,15 +28,17 @@ public class Server {
                     mensaje = in.readUTF();
                     System.out.println(mensaje);
 
+                    out.writeUTF(mensaje);
                 } catch (IOException i) {
                     System.out.println(i);
                 }
             }
 
-            System.out.println("Cerrando la conexion");
+            System.out.println("Cerrando la conexión");
 
             s.close();
             in.close();
+            out.close();
         } catch (IOException i) {
             System.out.println(i);
         }
